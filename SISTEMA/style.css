@@ -1,0 +1,393 @@
+:root {
+  --cor-fundo: #faf7f5;
+  --cor-texto: #2b2320;
+  --cor-destaque: #a8763e;
+  --cor-card: #ffffff;
+  --cor-borda: #e8e0da;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+.topbar {
+  text-align: center;
+  padding: 32px 16px 16px;
+}
+
+.logo {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.topbar h1 span {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--cor-destaque);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.subtitle {
+  color: #7a6f68;
+  margin-top: 8px;
+}
+
+.entrega-info {
+  text-align: center;
+  margin: 0 auto 14px;
+}
+
+.entrega-info p {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cor-destaque);
+  margin: 0;
+}
+
+.entrega-obs {
+  display: block;
+  font-size: 0.75rem;
+  color: #7a6f68;
+  margin-top: 2px;
+}
+
+.entrega-whatsapp {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #25d366;
+  margin-top: 6px;
+  text-decoration: none;
+}
+
+.entrega-whatsapp:hover {
+  text-decoration: underline;
+}
+
+.formas-pagamento {
+  max-width: 700px;
+  margin: 0 auto 20px;
+  padding: 12px 18px;
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.formas-pagamento-titulo {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #7a6f68;
+  margin-bottom: 8px;
+}
+
+.formas-pagamento-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.forma-pagamento {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+
+.filtros {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 16px 24px;
+}
+
+.filtros input,
+.filtros select {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--cor-borda);
+  font-size: 0.95rem;
+  background: var(--cor-card);
+}
+
+.filtros input {
+  min-width: 260px;
+}
+
+.info-categoria {
+  max-width: 700px;
+  margin: 0 auto 24px;
+  padding: 14px 18px;
+  background: #fbf3e2;
+  border: 1px solid #e6cfa0;
+  border-left: 4px solid var(--cor-destaque);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #5a4326;
+  line-height: 1.5;
+}
+
+.info-categoria strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--cor-destaque);
+}
+
+.catalogo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 0 24px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.carregando,
+.sem-resultados {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #999;
+  padding: 40px 0;
+}
+
+.card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.card-imagem {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #f1ece8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.selo-mais-vendido {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  background: var(--cor-destaque);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.card-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-imagem .sem-foto {
+  color: #b7aca4;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 12px;
+}
+
+.card-corpo {
+  padding: 14px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.card-marca {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--cor-destaque);
+  font-weight: 600;
+}
+
+.card-nome {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-descricao {
+  font-size: 0.85rem;
+  color: #6b615a;
+  flex: 1;
+  margin: 4px 0 10px;
+}
+
+.card-preco {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--cor-texto);
+}
+
+.rodape {
+  text-align: center;
+  padding: 20px;
+  color: #a89e97;
+  font-size: 0.85rem;
+}
+
+.link-painel {
+  color: #a89e97;
+}
+
+.btn-comprar {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--cor-destaque);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.btn-comprar:hover {
+  opacity: 0.85;
+}
+
+.modal-fundo {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.modal-fundo.aberto {
+  display: flex;
+}
+
+.modal {
+  position: relative;
+  background: var(--cor-card);
+  border-radius: 12px;
+  padding: 28px 24px 24px;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal h2 {
+  margin: 0 0 4px;
+  font-size: 1.2rem;
+}
+
+.modal-perfume {
+  color: var(--cor-destaque);
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.modal label {
+  font-size: 0.85rem;
+  color: #6b615a;
+  margin-bottom: -4px;
+}
+
+.modal input,
+.modal select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--cor-borda);
+  font-size: 0.95rem;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+.campo-condicional {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modal-fechar {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #999;
+  line-height: 1;
+}
+
+.btn-whatsapp {
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #25d366;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-whatsapp:hover {
+  opacity: 0.9;
+}
+
+.modal-erro {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin: 0;
+  min-height: 1em;
+}
+
+/* Visual sempre claro, independente do modo escuro do celular */
+:root {
+  color-scheme: light;
+}

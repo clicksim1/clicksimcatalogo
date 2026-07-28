@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Click Sim | Configurar Bot do WhatsApp</title>
+<link rel="stylesheet" href="../SISTEMA/style.css">
+<link rel="stylesheet" href="bot.css">
+</head>
+<body>
+
+<div class="painel">
+
+  <header class="topbar">
+    <h1>Click Sim <span>Mensagens do Bot</span></h1>
+    <p class="subtitle">Palavras-chave e respostas prontas para atender no WhatsApp</p>
+    <a href="../EDICAO/painel.html" class="link-catalogo">← Voltar pro painel de produtos</a>
+    ·
+    <a href="../SISTEMA/index.html" class="link-catalogo">Ver catálogo →</a>
+  </header>
+
+  <div class="bot-status-caixa">
+    <div>
+      <strong id="botStatusTexto">Bot ativado</strong>
+      <p>Quando desligado, é só um lembrete visual — não apaga nada, só marca que o atendimento automático está pausado.</p>
+    </div>
+    <button id="btnBotToggle" class="chave-toggle" type="button" aria-pressed="true">
+      <span class="chave-bolinha"></span>
+    </button>
+  </div>
+
+  <div class="checklist-atendimento">
+    <strong>Checklist de atendimento</strong>
+    <ol>
+      <li>Cliente manda mensagem (chamou).</li>
+      <li>
+        É a primeira mensagem dele hoje?
+        <ul>
+          <li><strong>Sim</strong>, dentro do horário (09h–18h) → mande <em>Saudação (Boas-vindas)</em> — já inclui o link do catálogo.</li>
+          <li><strong>Sim</strong>, fora do horário → mande <em>Saudação Fora do Horário</em> — já inclui o link do catálogo.</li>
+          <li><strong>Não</strong> (já teve contato hoje) e está fora do horário → mande <em>Ausência</em>.</li>
+        </ul>
+      </li>
+      <li>Cliente pergunta algo (pagamento, tester, entrega, disponibilidade...) → use a <em>Resposta Rápida</em> com a palavra-chave correspondente.</li>
+      <li>Cliente recebeu o link e ficou +/- 1h sem responder → mande <em>Follow-up</em>.</li>
+      <li>
+        Cliente faz o pedido:
+        <ul>
+          <li>Escolheu Retirada mas não informou horário → mande <em>Retirada sem horário informado</em>.</li>
+          <li>Pedido completo → mande <em>Confirmação de pedido recebido</em> e marque a conversa como <strong>NÃO LIDA</strong> pro vendedor confirmar a compra.</li>
+        </ul>
+      </li>
+      <li>Pergunta fora do script (nada bate com as respostas cadastradas) → mande <em>Fallback</em>, marque como <strong>NÃO LIDA</strong> e não interaja mais com esse cliente pelo resto do dia — o vendedor assume.</li>
+      <li>Depois da entrega/retirada → mande <em>Agradecimento pós-venda</em>.</li>
+    </ol>
+  </div>
+
+  <div class="info-categoria">
+    <strong>Como usar</strong>
+    Cadastre palavras-chave ou perguntas comuns dos clientes e a resposta pronta. Depois é só
+    copiar e colar no WhatsApp. Mensagens do tipo "Saudação" e "Ausência" vão nos campos
+    automáticos do WhatsApp Business (Configurações → Ferramentas para Empresas); as do tipo
+    "Resposta Rápida" você usa manualmente quando o cliente perguntar algo parecido com as
+    palavras-chave cadastradas; as do tipo "Follow-up" você usa manualmente quando notar que o
+    cliente sumiu depois de mandar o catálogo (ex: sem resposta depois de +/- 1 hora) — não tem
+    disparo automático por tempo, é você que precisa ficar de olho e mandar; a do tipo
+    "Fallback" você usa quando o cliente perguntar algo que não está em nenhuma resposta
+    cadastrada — avisa que vai verificar e (segundo a nota interna dela) marca a conversa como
+    não lida pra alguém responder de verdade depois.
+    <br><br>
+    <strong>Ausência × Saudação Fora do Horário:</strong> use "Ausência" quando o cliente já
+    teve contato antes e escreve de novo fora do horário. Use "Saudação Fora do Horário" quando
+    for a primeira mensagem do cliente naquele dia e já for fora do horário — ela já manda a
+    saudação + link do catálogo + aviso que o pedido só é confirmado quando a loja abrir.
+    <br><br>
+    <strong>Dica de personalização:</strong> se o WhatsApp mostrar o nome real do cliente, pode
+    trocar o "Oi!" pelo nome dele (ex: "Oi, Maria!"). Se não tiver certeza que é um nome de
+    verdade (só número, apelido genérico, etc.), não force o nome nem use emojis de saudação
+    decorativos (tipo 🌸) — sem personalização de verdade fica estranho.
+  </div>
+
+  <section class="painel-acoes">
+    <button id="btnBaixar" class="btn-comprar">Baixar mensagens (.txt)</button>
+    <button id="btnRestaurar" class="btn-secundario">Restaurar mensagens padrão</button>
+  </section>
+
+  <section class="painel-form">
+    <h2 id="tituloForm">Adicionar nova mensagem</h2>
+    <form id="formMensagem">
+      <label for="fTipo">Tipo</label>
+      <select id="fTipo">
+        <option value="Saudação">Saudação (automática, primeiro contato)</option>
+        <option value="Ausência">Ausência (automática, fora do horário)</option>
+        <option value="Saudação Fora do Horário">Saudação Fora do Horário (1º contato do dia, fora do horário)</option>
+        <option value="Resposta Rápida" selected>Resposta Rápida (por palavra-chave)</option>
+        <option value="Follow-up">Follow-up (cliente sumiu, sem resposta)</option>
+        <option value="Fallback">Fallback (pergunta fora do script)</option>
+      </select>
+
+      <label for="fTitulo">Título (só pra você identificar)</label>
+      <input type="text" id="fTitulo" required placeholder="Ex: Formas de pagamento">
+
+      <div id="campoPalavrasChave">
+        <label for="fPalavrasChave">Palavras-chave ou perguntas do cliente</label>
+        <input type="text" id="fPalavrasChave" placeholder="Ex: pagamento, pix, cartão, como pago">
+      </div>
+
+      <label for="fResposta">Resposta</label>
+      <textarea id="fResposta" rows="4" required placeholder="Digite a resposta completa..."></textarea>
+
+      <label for="fNotaInterna">Nota interna (só aparece aqui no painel, não é enviada pro cliente)</label>
+      <textarea id="fNotaInterna" rows="2" placeholder="Ex: depois de mandar, marcar a conversa como não lida pro vendedor verificar"></textarea>
+
+      <label class="checkbox campo-ativo">
+        <input type="checkbox" id="fAtiva" checked> Mensagem ativa
+      </label>
+
+      <div class="form-botoes">
+        <button type="submit" id="btnSalvarMensagem" class="btn-comprar">Adicionar mensagem</button>
+        <button type="button" id="btnCancelarEdicao" class="btn-secundario" hidden>Cancelar edição</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="painel-lista">
+    <h2>Mensagens cadastradas (<span id="totalMensagens">0</span>)</h2>
+    <div id="listaMensagens" class="lista-mensagens"></div>
+  </section>
+
+</div>
+
+<script src="bot-clicksim.js"></script>
+</body>
+</html>

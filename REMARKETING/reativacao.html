@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Painel de Reativação — Click Sim</title>
+<style>
+:root{--bg:#0f1720;--card:#17212b;--line:#243342;--ink:#e6edf3;--mut:#8b9bad;--wa:#25d366;--wad:#1da851;--accent:#a8763e}
+*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:16px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+h1{margin:0 0 3px;font-size:19px}.sub{color:var(--mut);font-size:13px}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;min-width:92px}
+.kpi b{display:block;font-size:20px}.kpi span{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+input[type=search]{flex:1;min-width:180px;background:var(--card);border:1px solid var(--line);color:var(--ink);padding:9px 12px;border-radius:9px;font-size:14px}
+.chip{background:var(--card);border:1px solid var(--line);color:var(--ink);padding:7px 13px;border-radius:20px;cursor:pointer;font-size:13px;user-select:none}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.chip.tool{background:#1c2a1f;border-color:#2f4a34;color:#bfe8c4}.chip.tool:hover{background:#243a29}
+.progress{color:var(--mut);font-size:13px;margin-left:auto}
+.saved{color:#6fbf7a;font-size:12px}.saved.flash{color:#8fe388;font-weight:600}
+/* passo a passo */
+.howto{display:flex;align-items:center;gap:14px;margin-top:12px;background:#12202c;border:1px solid #244055;border-radius:12px;padding:11px 14px}
+.howto .ht-steps{display:flex;gap:18px;flex-wrap:wrap;flex:1;font-size:13px;color:#d6e2ee}
+.howto .ht-steps b{color:#e8c98a}
+.howto .ht-close{cursor:pointer;color:var(--mut);font-size:20px;line-height:1;padding:0 4px}
+.howto.hide{display:none}
+/* painel de presente */
+.gift{margin:12px 0 2px;background:#14202b;border:1px solid #2a4636;border-radius:12px;overflow:hidden}
+.gift .gh{display:flex;align-items:center;gap:8px;padding:11px 14px;cursor:pointer;background:#182a20}
+.gift .gh b{font-size:14px;color:#bfe8c4}.gift .gh .hint{color:var(--mut);font-size:12px;font-weight:400}
+.gift .gh .arrow{margin-left:auto;color:var(--mut);transition:.2s}
+.gift.open .gh .arrow{transform:rotate(90deg)}
+.gift .body{display:none;padding:6px 14px 14px}
+.gift.open .body{display:block}
+.gtab{width:100%;border-collapse:collapse;margin-top:6px}
+.gtab th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--mut);text-align:left;padding:4px 8px}
+.gtab td{padding:4px 8px;vertical-align:middle}
+.gtab .fx{color:var(--ink);font-size:13px;white-space:nowrap}
+.gtab .cnt{color:var(--mut);font-size:12px;white-space:nowrap}
+.gin{background:#0f1720;border:1px solid var(--line);color:var(--ink);padding:8px 10px;border-radius:8px;font-size:13px;width:100%}
+.gin:focus{outline:none;border-color:var(--accent)}
+.grow input.code{max-width:150px}
+.linkrow{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+.linkrow label{font-size:12px;color:var(--mut);min-width:120px}
+.linkrow input{flex:1;min-width:220px}
+.gactions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center}
+/* bloco mensagem */
+.modepick{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
+.modepick .opt{background:#0f1720;border:1px solid var(--line);color:var(--ink);padding:8px 14px;border-radius:9px;cursor:pointer;font-size:13px}
+.modepick .opt.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.tags{font-size:12px;color:var(--mut);margin:10px 0 6px;line-height:1.7}
+.tags code{background:#0f1720;border:1px solid #2f4a5a;border-radius:5px;padding:1px 6px;color:#e8c98a;cursor:pointer}
+textarea.msgin{width:100%;min-height:150px;background:#0f1720;border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:11px 12px;font-size:13px;font-family:inherit;line-height:1.5;resize:vertical}
+textarea.msgin:focus{outline:none;border-color:var(--accent)}
+.preview{margin-top:10px;background:#0d1a13;border:1px solid #274a34;border-radius:9px;padding:11px 13px}
+.preview .pl{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#6fbf7a;margin-bottom:5px}
+.preview .pv{font-size:12.5px;color:#cfe6d6;line-height:1.5;white-space:pre-wrap}
+.padrao-note{font-size:12.5px;color:var(--mut);margin-top:6px}
+main{padding:14px 20px 70px}
+.row{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:11px 14px;margin-bottom:9px}
+.row.sent{opacity:.5}
+.chk{width:22px;height:22px;flex:0 0 auto;cursor:pointer;accent-color:var(--wa)}
+.info{flex:1;min-width:0}
+.name{font-weight:600;font-size:15px}.name .tag{font-size:11px;color:var(--mut);font-weight:400;margin-left:8px}
+.cup{display:inline-block;background:#2a3a26;color:#8fe388;border:1px solid #3c5a34;border-radius:6px;font-size:11px;font-weight:700;padding:1px 7px;margin-left:8px}
+.meta{color:var(--mut);font-size:12px;margin-top:2px}
+.msg{color:#b9c6d3;font-size:12.5px;margin-top:6px;line-height:1.45;max-height:0;overflow:hidden;transition:.2s}
+.row.open .msg{max-height:300px}
+.acts{display:flex;gap:8px;flex:0 0 auto}
+.btn{border:none;border-radius:9px;padding:9px 15px;font-size:13px;cursor:pointer;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.send{background:var(--wa);color:#04240f}.send:hover{background:var(--wad)}
+.eye{background:transparent;border:1px solid var(--line);color:var(--mut)}
+.empty{text-align:center;color:var(--mut);padding:50px}
+footer{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);padding:9px 20px;font-size:12px;color:var(--mut);display:flex;gap:16px;flex-wrap:wrap}
+</style></head><body>
+<header>
+<h1>Painel de Reativação — 🌸 Click Sim</h1>
+<div class="sub">Clientes separados por tempo sem comprar · tudo nesta tela, sem planilha</div>
+
+<div class="howto" id="howto">
+ <div class="ht-steps">
+  <span><b>1.</b> Confira ou troque o <b>presente</b> no quadro abaixo 🎁</span>
+  <span><b>2.</b> Em cada cliente, clique em <b>Enviar ▶</b> — abre o WhatsApp com a mensagem pronta</span>
+  <span><b>3.</b> Marque o ✔ de enviado · fica salvo, pode fechar e voltar depois</span>
+ </div>
+ <span class="ht-close" id="htClose" title="fechar">×</span>
+</div>
+
+<div class="gift open" id="giftBox">
+ <div class="gh" id="giftHead"><b>🎁 Presente oferecido</b><span class="hint">clique para editar — vale cupom OU brinde</span><span class="arrow">▸</span></div>
+ <div class="body">
+  <table class="gtab">
+   <thead><tr><th>Faixa de ticket</th><th>Código do cupom (opcional)</th><th>Presente / brinde</th><th></th></tr></thead>
+   <tbody id="giftRows"></tbody>
+  </table>
+  <div class="linkrow"><label>Link do catálogo</label><input class="gin" id="cardapioIn" type="text"></div>
+  <div class="gactions">
+   <span class="chip tool" id="resetOffer">Restaurar padrão</span>
+   <span class="saved" id="cfgSaved">alterações salvas automaticamente</span>
+  </div>
+ </div>
+</div>
+
+<div class="gift" id="msgBox">
+ <div class="gh" id="msgHead"><b>✍️ Texto da mensagem</b><span class="hint">use o padrão ou escreva a sua</span><span class="arrow">▸</span></div>
+ <div class="body">
+  <div class="modepick">
+   <span class="opt" data-mode="padrao">Usar mensagem padrão</span>
+   <span class="opt" data-mode="custom">Escrever a minha</span>
+  </div>
+  <div id="padraoNote" class="padrao-note">As mensagens usam o texto automático (varia pela faixa de dias) + o presente definido acima. Simples: você não precisa escrever nada.</div>
+  <div id="customArea" style="display:none">
+   <div class="tags">Etiquetas que trocam sozinhas por cliente (clique para inserir):
+    <code data-tag="{nome}">{nome}</code> <code data-tag="{cupom}">{cupom}</code> <code data-tag="{presente}">{presente}</code> <code data-tag="{link}">{link}</code> <code data-tag="{dias}">{dias}</code> <code data-tag="{ticket}">{ticket}</code></div>
+   <textarea class="msgin" id="msgIn" placeholder="Escreva sua mensagem aqui..."></textarea>
+   <div class="gactions">
+    <span class="chip tool" id="fillDefault">Preencher com o texto padrão</span>
+    <span class="saved" id="msgSaved">salvo automaticamente</span>
+   </div>
+   <div class="preview">
+    <div class="pl">Prévia — como chega pro primeiro cliente da lista</div>
+    <div class="pv" id="msgPreview"></div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<div class="kpis" id="kpis"></div>
+<div class="ctrl">
+<input type="search" id="q" placeholder="Buscar por nome ou telefone...">
+<span class="chip on" data-f="all">Todos</span>
+<span class="chip" data-f="Até 30 dias">Até 30</span>
+<span class="chip" data-f="31-60 dias">31-60</span>
+<span class="chip" data-f="61-90 dias">61-90</span>
+<span class="chip" data-f="91-120 dias">91-120</span>
+<span class="chip" data-f="Mais tempo">Mais tempo</span>
+<span class="chip" id="hideSent">Ocultar enviados</span>
+<span class="progress" id="prog"></span>
+</div>
+<div class="ctrl">
+<span class="chip tool" id="export">⬇ Salvar backup</span>
+<span class="chip tool" id="import">⬆ Restaurar backup</span>
+<span class="chip tool" id="markVis">Marcar visíveis como enviados</span>
+<span class="chip tool" id="markN">Marcar primeiros N…</span>
+<span class="chip tool" id="clear">Limpar marcações</span>
+<span class="saved" id="savedTag">salvo automaticamente</span>
+<input type="file" id="fileInput" accept=".json,.txt" style="display:none">
+</div>
+</header>
+<main id="list"></main>
+<footer>
+<span>✅ Marcações e presente são salvos sozinhos neste navegador — pode fechar e voltar.</span>
+<span>💾 Use <b>Salvar backup</b> de vez em quando pra ter um arquivo de segurança.</span>
+<span>Lotes de 30-50/dia · abra o <b>WhatsApp Web</b> logado antes de enviar.</span>
+</footer>
+<script src="reativacao-dados.js"></script>
+<script>
+const GREET={"Até 30 dias": "Oi, {f}! Obrigado por ter comprado com a gente há pouco, foi um prazer te atender! Pra você já pensar no próximo perfume, separamos um presente:", "31-60 dias": "Oi, {f}! Sentimos sua falta por aqui. Faz um tempinho que você não compra com a gente e preparamos um presente pra te receber de volta:", "61-90 dias": "Oi, {f}! Já faz um tempo que a gente não te vê por aqui e você faz falta! Que tal voltar com uma fragrância nova? Separamos um presente pra você:", "91-120 dias": "Oi, {f}! Quanta saudade! Faz um bom tempo que você não compra com a gente. Preparamos um presente especial pra você voltar:", "Mais tempo": "Oi, {f}! Faz um tempinho que você não aparece e a gente sente muito a sua falta! Queremos muito te ter de volta com um presente:"};
+const OFFER_FAIXAS=["Ticket até R$ 100", "Ticket R$ 100 a 170", "Ticket R$ 171 a 199", "Ticket R$ 200 ou mais"];
+const DEFAULT_CFG={"offers": [{"code": "GANHOU5", "gift": "R$ 5,00 de desconto"}, {"code": "GANHOU8", "gift": "R$ 8,00 de desconto"}, {"code": "GANHOU10", "gift": "R$ 10,00 de desconto"}, {"code": "GANHOU12", "gift": "R$ 12,00 de desconto"}], "cardapio": "[LINK DO CATÁLOGO QUANDO PUBLICAR]", "mode": "padrao", "custom": "Oi, {nome}! Que saudade de te ver por aqui!\nPreparamos um presente especial pra você voltar: use o cupom *{cupom}* e ganhe *{presente}* na sua próxima compra.\n\nEai, não vai perder essa né?!\nQual perfume você vai escolher hoje?\nAcesse o link e faça seu pedido!\n\n{link}"};
+const CTA="Eai, não vai perder essa né?!\nQual perfume você vai escolher hoje?\nAcesse o link e faça seu pedido!";
+const STORE="reativacao_clicksim_enviados_v1";
+const CFGKEY="reativacao_clicksim_config_v1";
+let sent={},cfg=JSON.parse(JSON.stringify(DEFAULT_CFG)),filter="all",hideSent=false,q="";
+const list=document.getElementById('list');
+function fmt(n){return n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function fn(n){const p=n.trim().split(/\s+/).filter(Boolean);return p[0]||n;}
+
+// ---------- mensagem (montada ao vivo com o presente atual) ----------
+function offerLine(code,gift){code=(code||'').trim();gift=(gift||'').trim();
+ if(code&&gift)return `use o cupom *${code}* e ganhe *${gift}* na sua próxima compra!`;
+ if(gift)return `aproveite *${gift}* na sua próxima compra!`;
+ if(code)return `use o cupom *${code}* na sua próxima compra!`;
+ return "";}
+function applyTags(tpl,x){
+ const o=cfg.offers[x.tier]||{code:"",gift:""};
+ return tpl
+  .replace(/\{nome\}/g,fn(x.n))
+  .replace(/\{nome_completo\}/g,x.n)
+  .replace(/\{cupom\}/g,o.code||"")
+  .replace(/\{presente\}/g,o.gift||"")
+  .replace(/\{link\}/g,cfg.cardapio||"")
+  .replace(/\{cardapio\}/g,cfg.cardapio||"")
+  .replace(/\{dias\}/g,x.d)
+  .replace(/\{ticket\}/g,"R$ "+fmt(x.tm))
+  .replace(/\{pedidos\}/g,x.q);
+}
+function buildMsg(x){
+ if(cfg.mode==="custom" && (cfg.custom||"").trim()){
+  return applyTags(cfg.custom,x).replace(/\n{3,}/g,"\n\n").trim();
+ }
+ const o=cfg.offers[x.tier]||{code:"",gift:""};
+ const parts=[GREET[x.f].replace('{f}',fn(x.n))];
+ const ol=offerLine(o.code,o.gift);if(ol)parts.push(ol);
+ parts.push(CTA);parts.push(cfg.cardapio||"");
+ return parts.filter(Boolean).join("\n\n");
+}
+function buildLink(x){if(!x.ph)return "";return `https://wa.me/${x.ph}?text=${encodeURIComponent(buildMsg(x))}`;}
+
+// ---------- persistência ----------
+function loadAll(){
+ try{const r=localStorage.getItem(STORE);if(r)sent=JSON.parse(r)||{};}catch(e){}
+ try{const c=localStorage.getItem(CFGKEY);if(c){const p=JSON.parse(c);if(p&&p.offers){cfg=p;
+   if(!cfg.cardapio)cfg.cardapio=DEFAULT_CFG.cardapio;
+   if(!cfg.mode)cfg.mode="padrao";
+   if(cfg.custom==null)cfg.custom=DEFAULT_CFG.custom;}}}catch(e){}
+}
+let savT;
+function flash(id,txt){const t=document.getElementById(id);if(!t)return;const orig=t.dataset.orig||t.textContent;t.dataset.orig=orig;t.textContent=txt;t.classList.add('flash');clearTimeout(t._t);t._t=setTimeout(()=>{t.textContent=orig;t.classList.remove('flash');},1200);}
+function saveSent(){try{localStorage.setItem(STORE,JSON.stringify(sent));}catch(e){}flash('savedTag','✔ salvo');}
+function saveCfg(){try{localStorage.setItem(CFGKEY,JSON.stringify(cfg));}catch(e){}flash('cfgSaved','✔ salvo');}
+
+function sentList(){return DATA.filter(x=>sent[x.t]).map(x=>({telefone:x.t,nome:x.n,faixa:x.f}));}
+function exportBackup(){
+ const done=sentList();
+ const blob=new Blob([JSON.stringify({exportado:new Date().toISOString(),total:done.length,config:cfg,enviados:done},null,2)],{type:"application/json"});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+ a.download="enviados_clicksim_"+new Date().toISOString().slice(0,10)+".json";a.click();
+}
+function importBackup(text){
+ let add=0;
+ try{const o=JSON.parse(text);const arr=o.enviados||o;arr.forEach(it=>{const t=(it.telefone||it.t||it).toString();if(t){sent[t]=true;add++;}});
+   if(o.config&&o.config.offers){cfg=o.config;if(!cfg.cardapio)cfg.cardapio=DEFAULT_CFG.cardapio;if(!cfg.mode)cfg.mode="padrao";if(cfg.custom==null)cfg.custom=DEFAULT_CFG.custom;saveCfg();fillGift();fillMsgBox();}}
+ catch(e){text.split(/[\r\n,;]+/).forEach(l=>{const t=l.trim();if(t){sent[t]=true;add++;}});}
+ saveSent();render();alert(add+" cliente(s) marcados como enviados a partir do backup.");
+}
+
+// ---------- painel de presente ----------
+function fillGift(){
+ const tb=document.getElementById('giftRows');tb.innerHTML="";
+ OFFER_FAIXAS.forEach((fx,i)=>{
+  const n=DATA.filter(x=>x.tier===i).length;
+  const tr=document.createElement('tr');tr.className='grow';
+  tr.innerHTML=`<td class="fx">${fx}</td>
+   <td><input class="gin code" data-i="${i}" data-k="code" type="text" placeholder="(sem cupom)"></td>
+   <td><input class="gin gift" data-i="${i}" data-k="gift" type="text" placeholder="ex.: uma amostra grátis"></td>
+   <td class="cnt">${n} clientes</td>`;
+  tb.appendChild(tr);
+ });
+ tb.querySelectorAll('input').forEach(inp=>{
+  const i=+inp.dataset.i,k=inp.dataset.k;inp.value=(cfg.offers[i]&&cfg.offers[i][k])||"";
+  inp.oninput=()=>{cfg.offers[i][k]=inp.value;saveCfg();render();};
+ });
+ const c=document.getElementById('cardapioIn');c.value=cfg.cardapio||"";
+ c.oninput=()=>{cfg.cardapio=c.value;saveCfg();render();};
+}
+// ---------- bloco de mensagem (padrão x personalizada) ----------
+function updatePreview(){
+ const pv=document.getElementById('msgPreview');if(!pv)return;
+ if(DATA.length)pv.textContent=buildMsg(DATA[0]);
+}
+function applyMode(){
+ const custom=cfg.mode==="custom";
+ document.querySelectorAll('.modepick .opt').forEach(o=>o.classList.toggle('on',o.dataset.mode===cfg.mode));
+ document.getElementById('customArea').style.display=custom?"block":"none";
+ document.getElementById('padraoNote').style.display=custom?"none":"block";
+ updatePreview();
+}
+function fillMsgBox(){
+ const ta=document.getElementById('msgIn');ta.value=cfg.custom||"";
+ ta.oninput=()=>{cfg.custom=ta.value;saveCfg();flash('msgSaved','✔ salvo');updatePreview();render();};
+ document.querySelectorAll('.tags code').forEach(cd=>cd.onclick=()=>{
+  const tag=cd.dataset.tag;const s=ta.selectionStart||ta.value.length;
+  ta.value=ta.value.slice(0,s)+tag+ta.value.slice(ta.selectionEnd||s);
+  cfg.custom=ta.value;saveCfg();ta.focus();updatePreview();render();
+ });
+ document.querySelectorAll('.modepick .opt').forEach(o=>o.onclick=()=>{cfg.mode=o.dataset.mode;saveCfg();applyMode();render();});
+ document.getElementById('fillDefault').onclick=()=>{cfg.custom=DEFAULT_CFG.custom;saveCfg();ta.value=cfg.custom;updatePreview();render();};
+ applyMode();
+}
+
+function visible(){return DATA.filter(x=>{
+  if(filter!=="all"&&x.f!==filter)return false;
+  if(hideSent&&sent[x.t])return false;
+  if(q){const s=(x.n+" "+x.t).toLowerCase();if(!s.includes(q))return false;}
+  return true;});}
+function render(){
+ const v=visible();
+ list.innerHTML=v.length?"":'<div class="empty">Nenhum cliente com esses filtros (importe a lista em reativacao-dados.js).</div>';
+ v.forEach(x=>{
+  const msg=buildMsg(x),link=buildLink(x),noLink=!link;
+  const code=(cfg.offers[x.tier]&&cfg.offers[x.tier].code)||"";
+  const d=document.createElement('div');
+  d.className='row'+(sent[x.t]?' sent':'');
+  d.innerHTML=`<input type="checkbox" class="chk" ${sent[x.t]?'checked':''}>
+   <div class="info">
+     <div class="name">${x.n}${code?`<span class="cup">${code}</span>`:''}<span class="tag">${x.f} · ${x.d} dias · ${x.q} pedido(s) · ticket R$ ${fmt(x.tm)}</span></div>
+     <div class="meta">${x.t}${noLink?' · ⚠ telefone inválido':''}</div>
+     <div class="msg">${msg.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div>
+   </div>
+   <div class="acts">
+     <button class="btn eye">👁 ver</button>
+     ${noLink?'':`<a class="btn send" href="${link}" target="_blank">Enviar ▶</a>`}
+   </div>`;
+  d.querySelector('.chk').onchange=e=>{sent[x.t]=e.target.checked;saveSent();d.classList.toggle('sent',e.target.checked);updateKpi();if(hideSent&&e.target.checked)render();};
+  d.querySelector('.eye').onclick=()=>d.classList.toggle('open');
+  const s=d.querySelector('.send');if(s)s.onclick=()=>{sent[x.t]=true;saveSent();setTimeout(()=>{updateKpi();render();},400);};
+  list.appendChild(d);
+ });
+ updateKpi();updatePreview();
+}
+function updateKpi(){
+ const total=DATA.length,done=DATA.filter(x=>sent[x.t]).length;
+ document.getElementById('prog').textContent=`${done} de ${total} enviados`;
+ const byF={};DATA.forEach(x=>byF[x.f]=(byF[x.f]||0)+1);
+ const val=DATA.reduce((a,b)=>a+b.v,0);
+ document.getElementById('kpis').innerHTML=
+  `<div class="kpi"><b>${total.toLocaleString('pt-BR')}</b><span>Total clientes</span></div>
+   <div class="kpi"><b>R$ ${(val/1000).toFixed(0)}k</b><span>Já comprado</span></div>
+   <div class="kpi"><b>${byF['Até 30 dias']||0}</b><span>Até 30 dias</span></div>
+   <div class="kpi"><b>${byF['31-60 dias']||0}</b><span>31-60 dias</span></div>
+   <div class="kpi"><b>${byF['61-90 dias']||0}</b><span>61-90 dias</span></div>
+   <div class="kpi"><b>${byF['91-120 dias']||0}</b><span>91-120 dias</span></div>
+   <div class="kpi"><b>${byF['Mais tempo']||0}</b><span>Mais tempo</span></div>`;
+}
+// eventos
+const HOWKEY="reativacao_clicksim_howto_v1";
+try{if(localStorage.getItem(HOWKEY)==="1")document.getElementById('howto').classList.add('hide');}catch(e){}
+document.getElementById('htClose').onclick=()=>{document.getElementById('howto').classList.add('hide');try{localStorage.setItem(HOWKEY,"1");}catch(e){}};
+document.getElementById('giftHead').onclick=()=>document.getElementById('giftBox').classList.toggle('open');
+document.getElementById('msgHead').onclick=()=>document.getElementById('msgBox').classList.toggle('open');
+document.getElementById('resetOffer').onclick=()=>{if(!confirm("Restaurar o presente padrão (GANHOU5/8/10/12 e link original)?"))return;cfg.offers=JSON.parse(JSON.stringify(DEFAULT_CFG.offers));cfg.cardapio=DEFAULT_CFG.cardapio;saveCfg();fillGift();updatePreview();render();};
+document.getElementById('q').oninput=e=>{q=e.target.value.toLowerCase().trim();render();};
+document.querySelectorAll('.chip[data-f]').forEach(c=>c.onclick=()=>{
+ document.querySelectorAll('.chip[data-f]').forEach(k=>k.classList.remove('on'));
+ c.classList.add('on');filter=c.dataset.f;render();});
+document.getElementById('hideSent').onclick=function(){hideSent=!hideSent;this.classList.toggle('on',hideSent);render();};
+document.getElementById('export').onclick=exportBackup;
+document.getElementById('import').onclick=()=>document.getElementById('fileInput').click();
+document.getElementById('fileInput').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>importBackup(rd.result);rd.readAsText(f);e.target.value="";};
+document.getElementById('markVis').onclick=()=>{const v=visible();if(!confirm("Marcar como enviados os "+v.length+" clientes visíveis agora?"))return;v.forEach(x=>sent[x.t]=true);saveSent();render();};
+document.getElementById('markN').onclick=()=>{
+ const n=parseInt(prompt("A lista está em ordem do MAIS inativo para o menos. Quantos dos primeiros clientes você já enviou?\n(ex.: 120)"),10);
+ if(!n||n<1)return;DATA.slice(0,n).forEach(x=>sent[x.t]=true);saveSent();render();
+ alert("Os primeiros "+n+" clientes da lista foram marcados como enviados.");
+};
+document.getElementById('clear').onclick=()=>{if(!confirm("Apagar TODAS as marcações de enviado? Isso não dá pra desfazer."))return;sent={};saveSent();render();};
+loadAll();fillGift();fillMsgBox();render();
+</script>
+</body></html>

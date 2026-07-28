@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Click Sim | Catálogo de Perfumes</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <img src="../EDICAO/imagens/logo-clicksim.png" alt="Click Sim Perfumes" class="logo">
+  <h1>Click Sim <span>Perfumaria</span></h1>
+  <p class="subtitle">Catálogo de Perfumes</p>
+</header>
+
+<div class="entrega-info">
+  <p>📦 Entregamos em todo o Brasil</p>
+  <span class="entrega-obs">Prazo de entrega entre 1 e 10 dias, podendo variar conforme a região</span>
+  <a id="linkWhatsappTopo" class="entrega-whatsapp" href="#" target="_blank" rel="noopener">Para mais detalhes, chame no WhatsApp</a>
+</div>
+
+<div class="formas-pagamento">
+  <span class="formas-pagamento-titulo">Formas de pagamento aceitas:</span>
+  <span class="formas-pagamento-lista">
+    <span class="forma-pagamento">Pix</span>
+    <span class="forma-pagamento">Cartão Débito</span>
+    <span class="forma-pagamento">Cartão Crédito</span>
+    <span class="forma-pagamento">Dinheiro</span>
+  </span>
+</div>
+
+<section class="filtros">
+  <input type="text" id="busca" placeholder="Buscar por nome ou marca...">
+  <select id="filtroCategoria">
+    <option value="todos">Todas as categorias</option>
+    <option value="Perfume">Perfumes</option>
+    <option value="Tester">Outlet/Testers</option>
+    <option value="Sabonete">Sabonetes</option>
+    <option value="Promocao">Promoções</option>
+  </select>
+  <select id="filtroGenero">
+    <option value="todos">Todos os gêneros</option>
+    <option value="Masculino">Masculino</option>
+    <option value="Feminino">Feminino</option>
+    <option value="Unissex">Unissex</option>
+  </select>
+</section>
+
+<div id="infoTester" class="info-categoria" hidden>
+  <strong>O que é Outlet/Tester?</strong>
+  Testers são perfumes 100% originais que vêm sem a caixa e/ou sem a tampa de fábrica — por isso o fornecedor concede um desconto, que repassamos direto pra você. A foto mostra o produto exatamente como ele chega.
+</div>
+
+<main id="catalogo" class="catalogo">
+  <p class="carregando">Carregando perfumes...</p>
+</main>
+
+<footer class="rodape">
+  <p>Click Sim &copy; <span id="ano"></span> · <a href="../EDICAO/painel.html" class="link-painel">Painel</a></p>
+</footer>
+
+<div id="modalFundo" class="modal-fundo">
+  <div class="modal">
+    <button id="fecharModal" class="modal-fechar" aria-label="Fechar">&times;</button>
+    <h2>Finalizar pedido</h2>
+    <p id="modalPerfume" class="modal-perfume"></p>
+
+    <label for="inputNome">Seu nome</label>
+    <input type="text" id="inputNome" placeholder="Digite seu nome">
+
+    <label for="inputPagamento">Forma de pagamento</label>
+    <select id="inputPagamento">
+      <option value="Pix">Pix</option>
+      <option value="Cartão">Cartão</option>
+      <option value="Dinheiro">Dinheiro</option>
+    </select>
+
+    <label for="inputEntrega">Retirada ou entrega?</label>
+    <select id="inputEntrega">
+      <option value="Retirada">Retirar no local</option>
+      <option value="Entrega">Entrega no endereço</option>
+    </select>
+
+    <div id="campoEndereco" class="campo-condicional" hidden>
+      <label for="inputEndereco">Endereço para entrega</label>
+      <input type="text" id="inputEndereco" placeholder="Rua, número, bairro, cidade">
+    </div>
+
+    <div id="campoHorario" class="campo-condicional" hidden>
+      <label for="inputHorario">Horário para retirada</label>
+      <input type="time" id="inputHorario">
+    </div>
+
+    <button id="enviarPedido" class="btn-whatsapp">Enviar pedido pelo WhatsApp</button>
+    <p id="modalErro" class="modal-erro"></p>
+  </div>
+</div>
+
+<script src="../EDICAO/perfumes.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

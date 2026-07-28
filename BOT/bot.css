@@ -1,0 +1,288 @@
+/* Estilos do módulo BOT — independente, só depende das variáveis de cor do style.css do site. */
+
+.painel {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 16px 60px;
+}
+
+.link-catalogo {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--cor-destaque);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.link-catalogo:hover {
+  text-decoration: underline;
+}
+
+.checklist-atendimento {
+  max-width: 700px;
+  margin: 0 auto 24px;
+  padding: 16px 20px;
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  font-size: 0.88rem;
+  color: var(--cor-texto);
+}
+
+.checklist-atendimento strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--cor-destaque);
+  font-size: 0.95rem;
+}
+
+.checklist-atendimento ol {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checklist-atendimento ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checklist-atendimento em {
+  font-style: normal;
+  color: var(--cor-destaque);
+  font-weight: 600;
+}
+
+.bot-status-caixa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.bot-status-caixa strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+.bot-status-caixa p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #7a6f68;
+  max-width: 480px;
+}
+
+.chave-toggle {
+  flex-shrink: 0;
+  width: 52px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  background: #cfc6bd;
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s ease;
+}
+
+.chave-toggle.ligado {
+  background: var(--cor-destaque);
+}
+
+.chave-bolinha {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s ease;
+}
+
+.chave-toggle.ligado .chave-bolinha {
+  transform: translateX(24px);
+}
+
+.painel-acoes {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.btn-secundario {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-card);
+  color: var(--cor-texto);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secundario:hover {
+  background: var(--cor-fundo);
+}
+
+.painel-form {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 32px;
+}
+
+.painel-form h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.painel-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.painel-form label {
+  font-size: 0.85rem;
+  color: #6b615a;
+  margin-top: 10px;
+}
+
+.painel-form input,
+.painel-form select,
+.painel-form textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--cor-borda);
+  font-size: 0.95rem;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: inherit;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--cor-texto);
+}
+
+.checkbox input {
+  width: auto;
+}
+
+.campo-ativo {
+  margin-top: 14px;
+}
+
+.form-botoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.painel-lista h2 {
+  font-size: 1.1rem;
+  margin-bottom: 2px;
+}
+
+.item-tag {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  color: #6b615a;
+}
+
+.item-botoes {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.item-botoes button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-fundo);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.item-botoes button:hover {
+  background: #efe8e2;
+}
+
+.item-botoes .btn-excluir {
+  color: #c0392b;
+  border-color: #e6b8b0;
+}
+
+.lista-mensagens {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item-mensagem {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.item-mensagem-inativa {
+  opacity: 0.55;
+}
+
+.item-mensagem-topo {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.item-mensagem-titulo {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.item-mensagem-palavras {
+  font-size: 0.75rem;
+  color: var(--cor-destaque);
+  margin: 0 0 6px;
+}
+
+.item-mensagem-texto {
+  font-size: 0.85rem;
+  color: #6b615a;
+  white-space: pre-line;
+  margin: 0 0 10px;
+}
+
+.item-mensagem-nota {
+  font-size: 0.78rem;
+  color: #a8763e;
+  background: #fbf3e2;
+  border: 1px solid #e6cfa0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin: 0 0 10px;
+}
