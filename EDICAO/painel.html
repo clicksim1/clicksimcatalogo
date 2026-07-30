@@ -25,6 +25,16 @@
   </section>
 
   <section class="painel-form">
+    <h2>WhatsApp da loja</h2>
+    <label for="fWhatsapp">Número (com DDI+DDD, só números)</label>
+    <input type="text" id="fWhatsapp" placeholder="Ex: 5547988587295">
+    <div class="form-botoes">
+      <button type="button" id="btnSalvarWhatsapp" class="btn-comprar">Salvar número</button>
+      <button type="button" id="btnBaixarConfig" class="btn-secundario">Baixar config.js atualizado</button>
+    </div>
+  </section>
+
+  <section class="painel-form">
     <h2 id="tituloForm">Adicionar novo perfume</h2>
     <form id="formPerfume">
       <input type="hidden" id="fId">
@@ -88,6 +98,7 @@
 
 </div>
 
+<script src="config.js"></script>
 <script src="perfumes.js"></script>
 <script src="painel.js"></script>
 </body>

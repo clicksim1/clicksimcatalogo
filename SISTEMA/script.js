@@ -1,4 +1,3 @@
-const NUMERO_WHATSAPP = "5547999626472";
 const PASTA_IMAGENS = "../EDICAO/imagens/";
 
 const catalogo = document.getElementById("catalogo");

@@ -1,4 +1,5 @@
 const CHAVE_PERFUMES = "clicksim_perfumes";
+const CHAVE_CONFIG = "clicksim_config";
 const PASTA_IMAGENS = "imagens/";
 
 inicializarPainel();
@@ -25,6 +26,21 @@ function inicializarPainel() {
   const fDescricao = document.getElementById("fDescricao");
   const fMaisVendido = document.getElementById("fMaisVendido");
   const fPromocao = document.getElementById("fPromocao");
+
+  const fWhatsapp = document.getElementById("fWhatsapp");
+
+  function carregarNumeroWhatsapp() {
+    try {
+      const salvo = localStorage.getItem(CHAVE_CONFIG);
+      if (salvo) {
+        const config = JSON.parse(salvo);
+        if (config && config.numeroWhatsapp) return config.numeroWhatsapp;
+      }
+    } catch (erro) {
+      console.warn("Não foi possível ler a configuração salva:", erro);
+    }
+    return typeof NUMERO_WHATSAPP !== "undefined" ? NUMERO_WHATSAPP : "";
+  }
 
   function normalizarImagem(p) {
     if (p.imagem && p.imagem.startsWith("imagens/")) {
@@ -270,6 +286,39 @@ function inicializarPainel() {
     renderizarLista();
     limparFormulario();
   });
+
+  document.getElementById("btnSalvarWhatsapp").addEventListener("click", () => {
+    const numero = fWhatsapp.value.replace(/\D/g, "");
+    if (!numero) {
+      alert("Digite o número de WhatsApp (só números, com DDI+DDD).");
+      return;
+    }
+    fWhatsapp.value = numero;
+    try {
+      localStorage.setItem(CHAVE_CONFIG, JSON.stringify({ numeroWhatsapp: numero }));
+      alert("Número salvo neste navegador. Clique em \"Baixar config.js atualizado\" e substitua o arquivo antes de publicar.");
+    } catch (erro) {
+      console.warn("Não foi possível salvar a configuração:", erro);
+    }
+  });
+
+  document.getElementById("btnBaixarConfig").addEventListener("click", () => {
+    const numero = fWhatsapp.value.replace(/\D/g, "") || carregarNumeroWhatsapp();
+    const texto =
+      `// Número de WhatsApp da loja: DDI + DDD + número, só dígitos (ex: 5547988587295).\n` +
+      `const NUMERO_WHATSAPP = ${JSON.stringify(numero)};\n`;
+    const blob = new Blob([texto], { type: "text/javascript" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "config.js";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  fWhatsapp.value = carregarNumeroWhatsapp();
 
   limparFormulario();
   renderizarLista();
